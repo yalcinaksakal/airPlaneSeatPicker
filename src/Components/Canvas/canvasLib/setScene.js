@@ -1,7 +1,7 @@
 import { Color, Scene } from "three";
 
 import prepareSeats from "../planeLib/prepareSeats";
-import prepareWindows from "../planeLib/prepareWindows";
+import prepareWalls from "../planeLib/prepareWalls";
 
 import myCam from "./camera";
 import gltfLoader from "./gltfLoader";
@@ -11,7 +11,7 @@ import setOrbitControls from "./setOrbitControls";
 
 const setScene = () => {
   //instancedMeshes of seat parts
-  let instancedMeshes;
+  let instancedMeshes, walls;
   //renderer
   const renderer = createR();
   //camera, inital position is (50/2)*25, maze's inital size is 50
@@ -50,9 +50,10 @@ const setScene = () => {
 
   const onSeatGLTFReady = () => {
     instancedMeshes = prepareSeats();
+    walls = prepareWalls();
     // console.log(instancedMeshes);
-    scene.add(...Object.values(instancedMeshes));
-    prepareWindows(scene);
+    scene.add(...Object.values(instancedMeshes), ...walls);
+
     //init
     render();
   };
