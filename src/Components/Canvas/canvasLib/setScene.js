@@ -1,6 +1,7 @@
 import { Color, Scene } from "three";
 
 import prepareSeats from "../planeLib/prepareSeats";
+import prepareWindows from "../planeLib/prepareWindows";
 
 import myCam from "./camera";
 import gltfLoader from "./gltfLoader";
@@ -49,8 +50,9 @@ const setScene = () => {
 
   const onSeatGLTFReady = () => {
     instancedMeshes = prepareSeats();
-    console.log(instancedMeshes);
+    // console.log(instancedMeshes);
     scene.add(...Object.values(instancedMeshes));
+    prepareWindows(scene);
     //init
     render();
   };

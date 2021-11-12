@@ -9,7 +9,8 @@
     "react-redux": "^7.2.5",
     "react-scripts": "4.0.3",
     "sass": "^1.43.4",
-    "three": "^0.132.2"
+    "three": "^0.132.2",
+    "three-csg-ts": "^3.1.9"
   },
   "scripts": {
     "start": "react-scripts start",

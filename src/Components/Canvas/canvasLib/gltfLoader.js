@@ -8,18 +8,12 @@ const gltfLoader = onLoad => {
     const model = gltf.scene;
     let b = 0;
     const baseHandler = part => {
-      part.rotateZ(Math.PI / 2);
-      part.rotateY(-Math.PI / 2);
-      part.rotateX(Math.PI);
-      part.position.set(0, 0, -54);
       b++;
       part.name = b;
       seatParts.push(part);
     };
 
     const seatHandler = (part, name) => {
-      part.rotateY(-Math.PI);
-      part.rotateX(-Math.PI / 2);
       part.name = name;
       seatParts.push(part);
     };
@@ -28,7 +22,6 @@ const gltfLoader = onLoad => {
         m.isMesh &&
         !["Sagak_low_chair_0", "Packet_low_chair_0"].includes(m.name)
       ) {
-        m.scale.set(0.05, 0.05, 0.05);
         switch (m.name) {
           case "Sari_low_chair_0": //headrest
             seatHandler(m, "head");
