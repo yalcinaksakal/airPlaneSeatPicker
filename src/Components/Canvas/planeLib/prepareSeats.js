@@ -5,8 +5,8 @@ import {
   seatParts,
 } from "../../../CONFIG/config";
 
-const distX = 1,
-  distY = 2;
+const distX = 30,
+  distY = 60;
 
 //'1', '2', '3', 'belt', 'head', 'back', 'seat'   InstancedMeshes
 const prepareSeats = () => {
@@ -29,7 +29,7 @@ const prepareSeats = () => {
     for (let i = 0; i < numOfSeats; i++) {
       y = Math.floor(i / NUM_SEATS_IN_A_ROW);
       x = i % NUM_SEATS_IN_A_ROW;
-      console.log("x:", x, "y:", y);
+
       positionHelper.position.set(x * distX, y * distY, z);
       positionHelper.scale.set(0.05, 0.05, 0.05);
       positionHelper.updateMatrix();

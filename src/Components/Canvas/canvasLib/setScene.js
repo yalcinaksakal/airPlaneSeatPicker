@@ -49,7 +49,7 @@ const setScene = () => {
 
   const onSeatGLTFReady = () => {
     instancedMeshes = prepareSeats();
-    // console.log(instancedMeshes);
+    console.log(instancedMeshes);
     scene.add(...Object.values(instancedMeshes));
     //init
     render();
