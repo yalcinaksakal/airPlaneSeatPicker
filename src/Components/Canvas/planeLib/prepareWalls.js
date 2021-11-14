@@ -5,6 +5,8 @@ import {
   BoxGeometry,
   InstancedMesh,
   Object3D,
+  PlaneBufferGeometry,
+  DoubleSide,
 } from "three";
 import { CSG } from "three-csg-ts";
 import {
@@ -16,7 +18,7 @@ import {
 } from "../../../CONFIG/config";
 
 const prepareWalls = () => {
-  //window
+  //window---------
   const windowGgeometry = new CylinderBufferGeometry(10, 10, 2, 128);
   const windowMaterial = new MeshBasicMaterial({
     color: "blue",
@@ -27,11 +29,13 @@ const prepareWalls = () => {
   _window.rotateZ(Math.PI / 2);
   _window.position.set(-125, 260, 5);
 
-  //wall
+  //wall----------
   const boxGeometry = new BoxGeometry(2, 80, 50);
   const wallMaterial = new MeshBasicMaterial({
     color: "whitesmoke",
   });
+  const fWall = new Mesh(boxGeometry, wallMaterial);
+  const lWall = new Mesh(boxGeometry, wallMaterial);
 
   let wall = new Mesh(boxGeometry, wallMaterial);
   wall.position.set(-125, 252, 3);
@@ -41,7 +45,7 @@ const prepareWalls = () => {
   wall = CSG.subtract(wall, _window);
   wall.updateMatrix();
 
-  //create lots of walls and windows as InstancedMeshes
+  //create lots of walls and windows as InstancedMeshes---------
   const walls = new InstancedMesh(wall.geometry, wall.material, 2 * NUM_ROWS);
   const _windows = new InstancedMesh(
     _window.geometry,
@@ -52,13 +56,14 @@ const prepareWalls = () => {
   let positionHelper, x, y;
   const sideDist = (distX * NUM_SEATS_IN_A_ROW) / 2 + halfCoridor;
   const yShift = (NUM_ROWS * distY) / 2;
+
   const positionHandler = (instancedMesh, wS = 0, wSZ = 0) => {
     for (let i = 0; i < 2 * NUM_ROWS; i++) {
       x = i % 2 ? -1 : 1;
       x = x * sideDist - distX / 2;
       y = Math.floor(i / 2) * 50 - yShift + distY / 2;
       positionHelper = new Object3D();
-      positionHelper.position.set(x, 252 + wS, y + wSZ);
+      positionHelper.position.set(x, 250 + wS, y + wSZ);
       if (wS) positionHelper.rotateZ(Math.PI / 2);
       positionHelper.updateMatrix();
       instancedMesh.setMatrixAt(i, positionHelper.matrix);
@@ -66,9 +71,25 @@ const prepareWalls = () => {
     }
   };
   positionHandler(walls);
+  x = sideDist - distX / 2;
+  fWall.position.set(x, 250, -yShift - distY / 2);
+  lWall.position.set(x, 250, yShift + distY / 2);
   positionHandler(_windows, 8, 2);
 
-  //floor
-  return [walls, _windows];
+  //floor  wall thickness=3 -----------------
+  x = NUM_SEATS_IN_A_ROW * distX + 2 * halfCoridor + 2;
+  //emergency exits=halfCoridor + 150 for front and end exits
+  y = NUM_ROWS * distY + halfCoridor + 70;
+
+  const floorGeometry = new PlaneBufferGeometry(x, y, 1, 1);
+
+  const floorMaterial = new MeshBasicMaterial({
+    color: "#57636f",
+    side: DoubleSide,
+  });
+  const floor = new Mesh(floorGeometry, floorMaterial);
+  floor.rotateX(Math.PI / 2);
+  floor.position.set(-distX / 2, 210, 0);
+  return [walls, _windows, floor, fWall, lWall];
 };
 export default prepareWalls;
