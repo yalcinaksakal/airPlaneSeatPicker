@@ -21,9 +21,9 @@ const prepareWalls = () => {
   //window---------
   const windowGgeometry = new CylinderBufferGeometry(10, 10, 2, 128);
   const windowMaterial = new MeshBasicMaterial({
-    color: "blue",
+    color: "black",
     transparent: true,
-    opacity: 0.1,
+    opacity: 0.3,
   });
   const _window = new Mesh(windowGgeometry, windowMaterial);
   _window.rotateZ(Math.PI / 2);

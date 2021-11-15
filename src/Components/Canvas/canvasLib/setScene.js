@@ -1,26 +1,27 @@
-import { Color, Scene } from "three";
+import { Color, CubeTextureLoader, Scene } from "three";
 import prepareExits from "../planeLib/prepareExits";
 
 import prepareSeats from "../planeLib/prepareSeats";
 import prepareWalls from "../planeLib/prepareWalls";
-import addWings from "./addWings";
+import prepareWings from "../planeLib/prepareWings";
 
 import myCam from "./camera";
 import gltfLoader from "./gltfLoader";
 import createLights from "./lights";
 import createR from "./renderer";
 import setOrbitControls from "./setOrbitControls";
+import wingGltfLoader from "./wingGltfLoader";
 
 const setScene = () => {
   //instancedMeshes of seat parts
-  let instancedMeshes, walls, exits;
+  let instancedMeshes, walls, exits, wings;
   //renderer
   const renderer = createR();
   //camera, inital position is (50/2)*25, maze's inital size is 50
   const camera = myCam(1250);
   //scene
   const scene = new Scene();
-  scene.background = new Color("#191919");
+  scene.background = new Color("black");
 
   // scene.background = new CubeTextureLoader().load([
   //   "skybox/right.png",
@@ -61,18 +62,23 @@ const setScene = () => {
   }
   controls.addEventListener("change", requestRenderIfNotRequested);
 
-  const onSeatGLTFReady = () => {
+  let numOFLoadedGltfs = 0;
+  const onGLTFReady = () => {
+    numOFLoadedGltfs++;
+    if (numOFLoadedGltfs < 2) return;
     instancedMeshes = prepareSeats();
     walls = prepareWalls();
     exits = prepareExits();
-    scene.add(...Object.values(instancedMeshes), ...walls, exits);
+    wings = prepareWings();
+    scene.add(...Object.values(instancedMeshes), ...walls, exits, wings);
 
     // addWings(scene);
     //init
     render();
   };
   //seats
-  gltfLoader(onSeatGLTFReady);
+  gltfLoader(onGLTFReady);
+  wingGltfLoader(onGLTFReady);
 
   //onResize
   const onResize = () => {
