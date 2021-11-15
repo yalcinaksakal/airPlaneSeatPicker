@@ -1,10 +1,12 @@
 import { CubeTextureLoader, Scene } from "three";
-import { changed, setChanged } from "../../../CONFIG/config";
+import { changed, OCCUPIED, setChanged } from "../../../CONFIG/config";
 import prepareExits from "../planeLib/prepareExits";
 
 import prepareSeats from "../planeLib/prepareSeats";
 import prepareWalls from "../planeLib/prepareWalls";
 import prepareWings from "../planeLib/prepareWings";
+import occupateSeats from "../planeLib/seatOccupation";
+import createArray from "../planeLib/shuffle";
 
 import myCam, { updateCamPos } from "./camera";
 import gltfLoader from "./gltfLoader";
@@ -15,7 +17,7 @@ import wingGltfLoader from "./wingGltfLoader";
 
 const setScene = () => {
   //instancedMeshes of seat parts
-  let instancedMeshes, walls, exits, wings;
+  let instancedMeshes, walls, exits, wings, seats;
   //renderer
   const renderer = createR();
   //camera, inital position is (50/2)*25, maze's inital size is 50
@@ -63,7 +65,16 @@ const setScene = () => {
   }
   controls.addEventListener("change", requestRenderIfNotRequested);
 
-  let numOFLoadedGltfs = 0;
+  let numOFLoadedGltfs = 0,
+    numberOfOccupiedSeats;
+
+  const arrangeSeats = () => {
+    seats = createArray();
+    numberOfOccupiedSeats = Math.floor((seats.length * OCCUPIED) / 100);
+    occupateSeats(instancedMeshes.head, seats, numberOfOccupiedSeats);
+    render();
+  };
+
   const onGLTFReady = () => {
     numOFLoadedGltfs++;
     if (numOFLoadedGltfs < 2) return;
@@ -72,10 +83,7 @@ const setScene = () => {
     exits = prepareExits();
     wings = prepareWings();
     scene.add(...Object.values(instancedMeshes), ...walls, exits, wings);
-
-    // addWings(scene);
-    //init
-    render();
+    arrangeSeats();
   };
   //seats
   gltfLoader(onGLTFReady);
@@ -85,10 +93,13 @@ const setScene = () => {
   const recreateAirplane = type => {
     if (!changed) return;
     setChanged(false);
+    if (type === "occupied seats") {
+      arrangeSeats();
+      return;
+    }
     scene.remove(...Object.values(instancedMeshes), ...walls, exits, wings);
     updateCamPos();
     onGLTFReady();
-    console.log(type);
   };
   //onResize
   const onResize = () => {

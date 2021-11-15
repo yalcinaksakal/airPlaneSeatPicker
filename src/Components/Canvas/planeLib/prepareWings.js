@@ -1,4 +1,4 @@
-import { InstancedMesh, MeshBasicMaterial, Object3D } from "three";
+import { InstancedMesh, Object3D } from "three";
 import { distY, halfCoridor, NUM_ROWS, wing } from "../../../CONFIG/config";
 
 const prepareWings = scene => {

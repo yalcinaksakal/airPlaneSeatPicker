@@ -1,4 +1,4 @@
-import { DirectionalLight, AmbientLight, PointLight } from "three";
+import { DirectionalLight, AmbientLight } from "three";
 
 const createLights = () => {
   //lights

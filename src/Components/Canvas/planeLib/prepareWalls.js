@@ -25,7 +25,7 @@ const prepareWalls = () => {
   });
   const _window = new Mesh(windowGgeometry, windowMaterial);
   _window.rotateZ(Math.PI / 2);
-  _window.position.set(-125, 260, 5);
+  _window.position.set(-125, 275, 5);
 
   //wall----------
   const boxGeometry = new BoxGeometry(2, 80, 50);
@@ -73,7 +73,7 @@ const prepareWalls = () => {
   x = sideDist - distX / 2;
   fWall.position.set(x, 250, -yShift - distY / 2);
   lWall.position.set(x, 250, yShift + distY / 2);
-  positionHandler(_windows, 8, 2);
+  positionHandler(_windows, 23, 2);
 
   //floor  wall thickness=3 -----------------
   x = NUM_SEATS_IN_A_ROW * distX + 2 * halfCoridor + 2;

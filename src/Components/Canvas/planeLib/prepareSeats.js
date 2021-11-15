@@ -1,4 +1,4 @@
-import { InstancedMesh, Object3D } from "three";
+import { InstancedMesh, MeshBasicMaterial, Object3D } from "three";
 import {
   distX,
   distY,
@@ -12,12 +12,15 @@ import {
 const prepareSeats = () => {
   //create InstancedMeshes and return them
   const instancedMeshes = {};
+  const headMaterial = new MeshBasicMaterial({
+    color: "#dddddd",
+  });
   const numOfSeats = NUM_ROWS * NUM_SEATS_IN_A_ROW;
   seatParts.forEach(
     part =>
       (instancedMeshes[part.name] = new InstancedMesh(
         part.geometry,
-        part.material,
+        part.name === "head" ? headMaterial : part.material,
         numOfSeats
       ))
   );
@@ -27,12 +30,12 @@ const prepareSeats = () => {
     positionHelper.rotateZ(Math.PI / 2);
     positionHelper.rotateY(-Math.PI / 2);
     positionHelper.rotateX(Math.PI);
-    positionHelper.position.set(x, 200, y - 54);
+    positionHelper.position.set(x, 215, y - 54);
   };
   const adjustSeatParts = (x, y) => {
     positionHelper.rotateY(-Math.PI);
     positionHelper.rotateX(-Math.PI / 2);
-    positionHelper.position.set(x, 200, y);
+    positionHelper.position.set(x, 215, y);
   };
   const yShift = (-distY * NUM_ROWS) / 2;
 
