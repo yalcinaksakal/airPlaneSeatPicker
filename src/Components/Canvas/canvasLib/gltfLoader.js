@@ -1,3 +1,4 @@
+import { MeshBasicMaterial } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { setSeatParts } from "../../../CONFIG/config";
 
@@ -15,6 +16,8 @@ const gltfLoader = onLoad => {
 
     const seatHandler = (part, name) => {
       part.name = name;
+      if (["head"].includes(part.name))
+        part.material = new MeshBasicMaterial({ color: "whitesmoke" });
       seatParts.push(part);
     };
     model.traverse(m => {

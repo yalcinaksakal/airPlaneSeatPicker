@@ -1,6 +1,7 @@
 import Canvas from "./Components/Canvas/Canvas";
 import RangeBar from "./Components/RangeBar/RangeBar";
 import styles from "./App.module.scss";
+import Paragraph from "./Components/Paragraph/Paragraph";
 function App() {
   return (
     <>
@@ -10,6 +11,7 @@ function App() {
         <RangeBar type="occupied seats" />
       </div>
       <Canvas />
+      <Paragraph />
     </>
   );
 }

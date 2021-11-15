@@ -71,7 +71,7 @@ const setScene = () => {
   const arrangeSeats = () => {
     seats = createArray();
     numberOfOccupiedSeats = Math.floor((seats.length * OCCUPIED) / 100);
-    occupateSeats(instancedMeshes.head, seats, numberOfOccupiedSeats);
+    occupateSeats(instancedMeshes, seats, numberOfOccupiedSeats);
     render();
   };
 

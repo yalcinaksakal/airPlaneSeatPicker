@@ -1,4 +1,4 @@
-import { InstancedMesh, MeshBasicMaterial, Object3D } from "three";
+import { InstancedMesh, Object3D } from "three";
 import {
   distX,
   distY,
@@ -12,15 +12,16 @@ import {
 const prepareSeats = () => {
   //create InstancedMeshes and return them
   const instancedMeshes = {};
-  const headMaterial = new MeshBasicMaterial({
-    color: "#dddddd",
-  });
+
   const numOfSeats = NUM_ROWS * NUM_SEATS_IN_A_ROW;
   seatParts.forEach(
     part =>
       (instancedMeshes[part.name] = new InstancedMesh(
-        part.geometry,
-        part.name === "head" ? headMaterial : part.material,
+        part.geometry.clone(),
+        part.material.clone(),
+        // ["seat"].includes(part.name)
+        //   ? new MeshBasicMaterial({ color: "blue" })
+        //   : part.material.clone(),
         numOfSeats
       ))
   );
