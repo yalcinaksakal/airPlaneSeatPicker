@@ -24,7 +24,7 @@ const prepareExits = () => {
   const middle =
     halfCoridor + (-distY * NUM_ROWS) / 2 + (distY * NUM_ROWS) / 2.3;
   const yShift = (NUM_ROWS * distY) / 2;
-  const createExit = (posx, posy, posz, color = "green", rot = 0) => {
+  const createExit = (posx, posy, posz, color = "#9df781", rot = 0) => {
     const material = new MeshBasicMaterial({
       color: color,
       //   transparent: true,

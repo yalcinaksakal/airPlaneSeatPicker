@@ -5,8 +5,6 @@ import {
   BoxGeometry,
   InstancedMesh,
   Object3D,
-  PlaneBufferGeometry,
-  DoubleSide,
 } from "three";
 import { CSG } from "three-csg-ts";
 import {
@@ -34,6 +32,7 @@ const prepareWalls = () => {
   const wallMaterial = new MeshBasicMaterial({
     color: "whitesmoke",
   });
+
   const fWall = new Mesh(boxGeometry, wallMaterial);
   const lWall = new Mesh(boxGeometry, wallMaterial);
 
@@ -81,15 +80,18 @@ const prepareWalls = () => {
   //emergency exits=halfCoridor + 150 for front and end exits
   y = NUM_ROWS * distY + halfCoridor + 70;
 
-  const floorGeometry = new PlaneBufferGeometry(x, y, 1, 1);
+  const floorGeometry = new BoxGeometry(x - 6, 20, y + 4);
 
   const floorMaterial = new MeshBasicMaterial({
     color: "#57636f",
-    side: DoubleSide,
   });
   const floor = new Mesh(floorGeometry, floorMaterial);
-  floor.rotateX(Math.PI / 2);
   floor.position.set(-distX / 2, 210, 0);
-  return [walls, _windows, floor, fWall, lWall];
+
+  const base = new Mesh(new BoxGeometry(x, NUM_ROWS + 50, y), wallMaterial);
+
+  base.position.set(-distX / 2, 210 - (NUM_ROWS / 2 + 25), 0);
+
+  return [walls, _windows, floor, fWall, lWall, base];
 };
 export default prepareWalls;
