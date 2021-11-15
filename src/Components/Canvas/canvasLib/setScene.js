@@ -15,8 +15,9 @@ import createR from "./renderer";
 import setOrbitControls from "./setOrbitControls";
 import wingGltfLoader from "./wingGltfLoader";
 import checkIntersectingSeat from "../mathLib/seatPicker";
+import { seatActions } from "../../../store/seat";
 
-const setScene = () => {
+const setScene = dispatch => {
   //instancedMeshes of seat parts
   let instancedMeshes, walls, exits, wings, seats, hoveredSeat;
   //renderer
@@ -132,6 +133,13 @@ const setScene = () => {
     if (newSelect !== hoveredSeat) {
       if (hoveredSeat !== null) changeColor(white);
       hoveredSeat = newSelect;
+      dispatch(
+        seatActions.setHovered({
+          hovered: hoveredSeat,
+          hx: event.clientX,
+          hy: event.clientY,
+        })
+      );
       if (hoveredSeat !== null) changeColor(green);
       requestRenderIfNotRequested();
     }

@@ -2,6 +2,7 @@ import Canvas from "./Components/Canvas/Canvas";
 import RangeBar from "./Components/RangeBar/RangeBar";
 import styles from "./App.module.scss";
 import Paragraph from "./Components/Paragraph/Paragraph";
+import HoveredSeat from "./Components/HoveredSeat/HoveredSeat";
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
       </div>
       <Canvas />
       <Paragraph />
+      <HoveredSeat />
     </>
   );
 }
