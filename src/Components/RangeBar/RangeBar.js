@@ -42,7 +42,7 @@ const RangeBar = ({ type }) => {
     <div className={styles.c}>
       <input
         type={"range"}
-        min={type === "occupied seats" ? 0 : 1}
+        min={type === "occupied seats" ? 0 : type === "rows" ? 4 : 1}
         max={type === "seats in a row" ? 4 : 100}
         value={val}
         onChange={e => {

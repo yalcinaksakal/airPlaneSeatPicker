@@ -1,4 +1,4 @@
-import { Color, CubeTextureLoader, Scene } from "three";
+import { CubeTextureLoader, Scene } from "three";
 import { changed, setChanged } from "../../../CONFIG/config";
 import prepareExits from "../planeLib/prepareExits";
 
@@ -6,7 +6,7 @@ import prepareSeats from "../planeLib/prepareSeats";
 import prepareWalls from "../planeLib/prepareWalls";
 import prepareWings from "../planeLib/prepareWings";
 
-import myCam from "./camera";
+import myCam, { updateCamPos } from "./camera";
 import gltfLoader from "./gltfLoader";
 import createLights from "./lights";
 import createR from "./renderer";
@@ -22,18 +22,18 @@ const setScene = () => {
   const camera = myCam(1250);
   //scene
   const scene = new Scene();
-  scene.background = new Color("black");
+  // scene.background = new Color("black");
 
-  // scene.background = new CubeTextureLoader().load([
-  //   "skybox/right.png",
-  //   "skybox/left.png",
+  scene.background = new CubeTextureLoader().load([
+    "skybox/right3.png",
+    "skybox/left3.png",
 
-  //   "skybox/top.png",
-  //   "skybox/bottom.png",
+    "skybox/top3.png",
+    "skybox/bottom3.png",
 
-  //   "skybox/front.png",
-  //   "skybox/back.png",
-  // ]);
+    "skybox/front3.png",
+    "skybox/back3.png",
+  ]);
   //lights
   const lights = createLights();
   Object.values(lights).forEach(light => scene.add(light));
@@ -82,10 +82,13 @@ const setScene = () => {
   wingGltfLoader(onGLTFReady);
 
   //recreatePlane
-  const recreateAirplane = () => {
+  const recreateAirplane = type => {
     if (!changed) return;
     setChanged(false);
-    console.log("change");
+    scene.remove(...Object.values(instancedMeshes), ...walls, exits, wings);
+    updateCamPos();
+    onGLTFReady();
+    console.log(type);
   };
   //onResize
   const onResize = () => {

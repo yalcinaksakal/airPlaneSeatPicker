@@ -80,17 +80,22 @@ const prepareWalls = () => {
   //emergency exits=halfCoridor + 150 for front and end exits
   y = NUM_ROWS * distY + halfCoridor + 70;
 
-  const floorGeometry = new BoxGeometry(x - 6, 20, y + 4);
+  const floorGeometry = new BoxGeometry(x - 6, 20, y + 80);
 
   const floorMaterial = new MeshBasicMaterial({
     color: "#57636f",
   });
   const floor = new Mesh(floorGeometry, floorMaterial);
   floor.position.set(-distX / 2, 210, 0);
+  const height = NUM_ROWS > 60 ? 210 : 150;
+  const base = new Mesh(
+    new BoxGeometry(x, height, y),
+    new MeshBasicMaterial({
+      color: "dodgerblue",
+    })
+  );
 
-  const base = new Mesh(new BoxGeometry(x, NUM_ROWS + 50, y), wallMaterial);
-
-  base.position.set(-distX / 2, 210 - (NUM_ROWS / 2 + 25), 0);
+  base.position.set(-distX / 2, 210 - height / 2, 0);
 
   return [walls, _windows, floor, fWall, lWall, base];
 };

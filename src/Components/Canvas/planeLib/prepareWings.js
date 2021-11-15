@@ -7,13 +7,7 @@ const prepareWings = scene => {
 
   const middle = -size / 2 + (-distY * NUM_ROWS) / 2 + (distY * NUM_ROWS) / 2.3;
 
-  const wings = new InstancedMesh(
-    wing.geometry,
-    new MeshBasicMaterial({
-      color: "whitesmoke",
-    }),
-    2
-  );
+  const wings = new InstancedMesh(wing.geometry, wing.material, 2);
 
   let positionHelper;
 
@@ -24,7 +18,7 @@ const prepareWings = scene => {
     positionHelper.rotateZ((-Math.PI * i * 17) / 18);
     positionHelper.position.set(
       i ? halfCoridor : -halfCoridor,
-      190 + (i ? 0 : -10),
+      190 + (i ? -30 : -40),
       middle
     );
     positionHelper.updateMatrix();
