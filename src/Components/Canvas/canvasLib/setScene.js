@@ -1,4 +1,5 @@
 import { Color, CubeTextureLoader, Scene } from "three";
+import { changed, setChanged } from "../../../CONFIG/config";
 import prepareExits from "../planeLib/prepareExits";
 
 import prepareSeats from "../planeLib/prepareSeats";
@@ -80,6 +81,12 @@ const setScene = () => {
   gltfLoader(onGLTFReady);
   wingGltfLoader(onGLTFReady);
 
+  //recreatePlane
+  const recreateAirplane = () => {
+    if (!changed) return;
+    setChanged(false);
+    console.log("change");
+  };
   //onResize
   const onResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -91,6 +98,7 @@ const setScene = () => {
   return {
     domElement,
     onResize,
+    recreateAirplane,
   };
 };
 
