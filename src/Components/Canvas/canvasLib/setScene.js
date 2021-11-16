@@ -17,7 +17,7 @@ import wingGltfLoader from "./wingGltfLoader";
 import checkIntersectingSeat from "../mathLib/seatPicker";
 import { seatActions } from "../../../store/seat";
 
-const setScene = dispatch => {
+const setScene = (dispatch, onLoad) => {
   //instancedMeshes of seat parts
   let instancedMeshes, walls, exits, wings, seats, hoveredSeat;
   //renderer
@@ -80,6 +80,7 @@ const setScene = dispatch => {
   const onGLTFReady = () => {
     numOFLoadedGltfs++;
     if (numOFLoadedGltfs < 2) return;
+    onLoad(false);
     instancedMeshes = prepareSeats();
     walls = prepareWalls();
     exits = prepareExits();

@@ -3,13 +3,16 @@ import { useDispatch } from "react-redux";
 import { setSceneController } from "../../CONFIG/config";
 import setScene from "./canvasLib/setScene";
 
-const Canvas = () => {
+const Canvas = ({ onLoad }) => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
     // console.log("canvas");
 
-    const { domElement, onResize, recreateAirplane } = setScene(dispatch);
+    const { domElement, onResize, recreateAirplane } = setScene(
+      dispatch,
+      onLoad
+    );
     setSceneController(recreateAirplane);
     canvasRef.current.appendChild(domElement);
     //resize
@@ -20,7 +23,7 @@ const Canvas = () => {
       window.removeEventListener("resize", onResize);
       domElement.remove();
     };
-  }, [dispatch]);
+  }, [dispatch, onLoad]);
 
   return (
     <div
