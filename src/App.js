@@ -13,6 +13,7 @@ function App() {
         <RangeBar type="rows" />
         <RangeBar type="seats in a row" />
         <RangeBar type="occupied seats" />
+        <p className={styles.p}>Please Select Your Seat</p>
       </div>
       {isLoading && <Spinner2 />}
       <Canvas onLoad={setIsLoading} />
