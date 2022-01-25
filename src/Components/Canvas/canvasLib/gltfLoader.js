@@ -1,4 +1,4 @@
-import { MeshBasicMaterial } from "three";
+import { Color, MeshBasicMaterial } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { setSeatParts } from "../../../CONFIG/config";
 
